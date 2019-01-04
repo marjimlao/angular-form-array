@@ -1,0 +1,50 @@
+<div style="text-align:center">
+  <h1>
+    Formularios dinámicos en Angular usando FormArray
+  </h1>
+</div>
+<form [formGroup]="form" (submit)="submit()" style="text-align:center">
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Nombre" formControlName="nombre">
+      <mat-error *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('required')">El nombre es obligatorio</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="form.controls['email'].touched && form.controls['email'].hasError('required')">El email es obligatorio</mat-error>
+      <mat-error *ngIf="form.controls['email'].touched && form.controls['email'].hasError('email')">El email no es válido</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="direcciones" formArrayName="direcciones">
+    <h3>Direcciones</h3>
+    <div class="direccion" [formGroupName]="i" *ngFor="let direccion of form.controls['direcciones'].controls; let i = index">
+
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Dirección" formControlName="direccion">
+          <mat-error *ngIf="form.controls['direcciones'].controls[i].controls['direccion'].touched && form.controls['direcciones'].controls[i].controls['direccion'].hasError('required')">La dirección es obligatoria</mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Teléfono" formControlName="telefono">
+          <mat-error *ngIf="form.controls['direcciones'].controls[i].controls['telefono'].touched && form.controls['direcciones'].controls[i].controls['telefono'].hasError('required')">El teléfono es obligatorio</mat-error>
+        </mat-form-field>
+      </div>
+        
+      <button mat-raised-button color="warn" type="button" (click)="eliminarDireccion(i)">Eliminar dirección</button>
+        
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="annadirDireccion()">Añadir dirección</button>
+  </div>
+
+  <button mat-raised-button color="accent">Enviar</button>
+
+</form>
